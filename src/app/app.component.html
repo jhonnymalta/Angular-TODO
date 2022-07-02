@@ -1,6 +1,11 @@
-<div class="container">
-  <h1 class="animate__animated animate__jackInTheBox">TO DO ANGULAR APP</h1>
-  <h3>{{ title }}</h3>
+<div>
+  <h1 class="animate__animated animate__jackInTheBox title">My Task's</h1>
+</div>
+<div
+  id="modal "
+  class="container animate__animated animate__flipInX"
+  *ngIf="mode == 'add'"
+>
   <form [formGroup]="formTask">
     <fieldset>
       <label for="Task">New Task</label>
@@ -12,14 +17,38 @@
       </small>
     </fieldset>
   </form>
+</div>
+
+<div
+  class="container animate__animated animate__flipInX"
+  *ngIf="mode == 'list'"
+>
+  <h3>{{ title }}</h3>
   <ul>
     <p *ngIf="todos.length == 0">
       <small>Não existem tarefas a serem executadas... Que tal começar!</small>
     </p>
     <li *ngFor="let item of todos">
-      {{ item.todo }} -
-      <button *ngIf="!item.done" (click)="MarkAsDone(item)">Concluir</button> |
+      {{ item.todo }}
+      <button *ngIf="!item.done" (click)="MarkAsDone(item)">Concluir</button>
       <button (click)="Remove(item)">Remover</button>
     </li>
   </ul>
+</div>
+
+<div>
+  <button
+    class="add-button animate__animated animate__fadeInUp"
+    (click)="changeMode('add')"
+    *ngIf="mode == 'list'"
+  >
+    <i class="fas fa-plus"></i>
+  </button>
+  <button
+    class="add-button animate__animated animate__fadeInUp"
+    (click)="changeMode('list')"
+    *ngIf="mode == 'add'"
+  >
+    <i class="fas fa-times"></i>
+  </button>
 </div>

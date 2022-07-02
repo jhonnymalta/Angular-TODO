@@ -11,6 +11,7 @@ export class AppComponent {
   title = 'to-do task';
   public todos: Todo[] = [];
   public formTask: FormGroup;
+  public mode: string = 'list';
 
   /**
    *
@@ -51,8 +52,17 @@ export class AppComponent {
   SaveToJsonString() {
     const data = JSON.stringify(this.todos);
     sessionStorage.setItem('todos', data);
+    this.LoadTasks();
   }
   LoadTasks() {
-    this.todos = JSON.parse(sessionStorage.getItem('todos')!);
+    const data = sessionStorage.getItem('todos')!;
+    if (data) {
+      this.todos = JSON.parse(data);
+    } else {
+      this.todos = [];
+    }
+  }
+  changeMode(mode: string) {
+    this.mode = mode;
   }
 }
