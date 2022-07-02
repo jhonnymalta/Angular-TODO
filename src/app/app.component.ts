@@ -17,11 +17,25 @@ export class AppComponent {
    */
   constructor(private fb: FormBuilder) {
     this.formTask = this.fb.group({
-      Title: ['', Validators.required],
+      title: [
+        '',
+        Validators.compose([
+          Validators.minLength(3),
+          Validators.maxLength(25),
+          Validators.required,
+        ]),
+      ],
     });
-    this.todos.push(new Todo(1, 'Cortar cabelo as 17:00', false));
-    this.todos.push(new Todo(2, 'Comprar Legumes', false));
-    this.todos.push(new Todo(3, 'Ligar para Sr Zé', false));
+
+    this.LoadTasks();
+  }
+
+  Add() {
+    const title = this.formTask.controls['title'].value;
+    const id = this.todos.length + 1;
+    this.todos.push(new Todo(id, title, false));
+    this.SaveToJsonString();
+    this.formTask.reset();
   }
 
   Remove(todo: Todo) {
@@ -29,8 +43,16 @@ export class AppComponent {
     if (index !== -1) {
       this.todos.splice(index, 1);
     }
+    this.SaveToJsonString();
   }
   MarkAsDone(todo: Todo) {
     todo.done = true;
+  }
+  SaveToJsonString() {
+    const data = JSON.stringify(this.todos);
+    sessionStorage.setItem('todos', data);
+  }
+  LoadTasks() {
+    this.todos = JSON.parse(sessionStorage.getItem('todos')!);
   }
 }

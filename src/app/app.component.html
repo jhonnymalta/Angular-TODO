@@ -1,14 +1,21 @@
 <div class="container">
-  <h1>TO DO ANGULAR APP</h1>
+  <h1 class="animate__animated animate__jackInTheBox">TO DO ANGULAR APP</h1>
   <h3>{{ title }}</h3>
   <form [formGroup]="formTask">
     <fieldset>
       <label for="Task">New Task</label>
-      <input type="text" formArrayName="Title" />
-      <button>Salvar</button>
+      <input type="text" formControlName="title" />
+      <button [disabled]="formTask.invalid" (click)="Add()">Salvar</button>
+      <br />
+      <small class="danger" *ngIf="formTask.controls['title'].invalid"
+        >Este campo é obrigatorio, e deve conter entre 3 a 25 Caracteres!
+      </small>
     </fieldset>
   </form>
   <ul>
+    <p *ngIf="todos.length == 0">
+      <small>Não existem tarefas a serem executadas... Que tal começar!</small>
+    </p>
     <li *ngFor="let item of todos">
       {{ item.todo }} -
       <button *ngIf="!item.done" (click)="MarkAsDone(item)">Concluir</button> |
