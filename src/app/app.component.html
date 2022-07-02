@@ -30,8 +30,12 @@
     </p>
     <li *ngFor="let item of todos">
       {{ item.todo }}
-      <button *ngIf="!item.done" (click)="MarkAsDone(item)">Concluir</button>
-      <button (click)="Remove(item)">Remover</button>
+      <button (click)="Remove(item)" class="fas fa-trash-alt"></button>
+      <button
+        *ngIf="!item.done"
+        (click)="MarkAsDone(item)"
+        class="fas fa-check-circle"
+      ></button>
     </li>
   </ul>
 </div>
